@@ -79,7 +79,7 @@ end
   erb = ERB.new(template_file)
 
   dialy_text = erb.result(binding)
-  File.open("dialy_file/#{full_date_str}#{workplace}#{holiday_name}.md", 'w') do |file|
+  File.open("dialy_file/#{full_date_str}#{workplace}#{holiday_name}.txt", 'w') do |file|
     file.puts(dialy_text)
   end
 end
