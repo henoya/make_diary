@@ -1,5 +1,16 @@
-### 日誌用ファイル生成
+# 日誌用ファイル生成
 
-Using:  ruby make-diary.rb 2019-02-01 2019-02-28 <work_place>
+## インストール
 
-dialy_file 以下に日付ファイル名のファイルが生成される
+```shell
+rbenv exec bundler
+```
+
+## 実行
+
+`Using:  ruby make-diary.rb [options] <start_date> <end_date> [<work_place>]`
+
+options:
+    -e, --ext EXTENTION : 生成ファイルの拡張子
+
+./dialy_file 以下に日付ファイル名のファイルが生成される

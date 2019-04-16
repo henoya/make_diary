@@ -2,6 +2,51 @@ require 'date'
 require 'holiday_japan'
 require 'erb'
 
+class CliOption
+  require 'optparse'
+
+  def initialize
+    @options = {}
+    OptionParser.new do |o|
+      o.banner = "Usage: ruby make-diary.rb [-options] <start_date> <end_date> [<work_place_name>]"
+      o.on('-d', '--debug', 'debug mode')        {|v| @options[:debug] = v}
+      o.on('-e', '--ext EXTENTION', 'file extention (default=.md)')  {|v| @options[:ext] = v}
+      o.on('-h', '--help', 'show help')                                       {|v| puts o; exit}
+      o.parse!(ARGV)
+    end
+  end
+
+  def has(name)
+    @options.include?(name)
+  end
+
+  def get(name)
+    @options[name]
+  end
+
+  def start_date
+    ARGV[0]
+  end
+
+  def end_date
+    ARGV[1]
+  end
+
+  def workplace
+    ARGV[2] ? ARGV[2] : ""
+  end
+
+  def ext
+    @options[:ext] ? @options[:ext] : "md"
+  end
+end
+
+# main
+option   = CliOption.new
+
+pp option.ext
+$debug_flag = option.has(:debug)
+
 WDAY = %w[日 月 火 水 木 金 土]
 
 def is_holiday(date)
@@ -38,17 +83,18 @@ end
 # ARGV[0] : start_date
 # ARGV[1] : end_date
 
-if ARGV.count < 2
+if(!option.start_date || !option.end_date)
   puts "Usage $0 <start-date> <end_date> [<work_place_name>]"
   exit 1
 end
 
-start_date = Date.parse(ARGV[0])
-end_date = Date.parse(ARGV[1])
-work_place_name = ARGV[2].nil? ? "" : ARGV[2]
+start_date = Date.parse(option.start_date)
+end_date = Date.parse(option.end_date)
+work_place_name = option.workplace
+ext = option.ext
 
-unless start_date < end_date
-  puts " <start_date> < <end_date> で指定してください"
+unless start_date <= end_date
+  puts " <start_date> <= <end_date> で指定してください"
   exit
 end
 
@@ -79,7 +125,7 @@ end
   erb = ERB.new(template_file)
 
   dialy_text = erb.result(binding)
-  File.open("dialy_file/#{full_date_str}#{workplace}#{holiday_name}.txt", 'w') do |file|
+  File.open("dialy_file/#{full_date_str}#{workplace}#{holiday_name}.#{ext}", 'w') do |file|
     file.puts(dialy_text)
   end
 end
