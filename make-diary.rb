@@ -105,7 +105,7 @@ end
 
   full_date_str = day.strftime("%Y年%m月%d日（#{wday}）")
 
-  workplace = holiday_name.nil? ? work_place_name : ''
+  workplace = holiday_name.nil? && ![0, 6].include?(day.wday) ? work_place_name : ''
 
   week_list = []
   calender_list.each do |week|
