@@ -1,4 +1,24 @@
 {
-    "terminal.integrated.shell.windows": "C:\\\\Windows\\\\System32\\\\wsl.exe",
     "window.title": "🐱𝑯𝒆𝒏𝒐𝒚𝒂 🖋𝐌𝐚𝐤𝐞𝐃𝐢𝐚𝐫𝐲 ${activeEditorShort}${separator}${rootName}",
+    "terminal.integrated.profiles.windows": {
+        "PowerShell": {
+            "source": "PowerShell",
+            "icon": "terminal-powershell"
+        },
+        "Command Prompt": {
+            "path": [
+                "${env:windir}\\Sysnative\\cmd.exe",
+                "${env:windir}\\System32\\cmd.exe"
+            ],
+            "args": [],
+            "icon": "terminal-cmd"
+        },
+        "Wsl": {
+            "source": "Git Bash",
+            "path": "${env:windir}\\System32\\wsl.exe"
+        },
+        "Git Bash": {
+            "source": "Git Bash"
+        }
+    }
 }
